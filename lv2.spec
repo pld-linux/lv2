@@ -3,25 +3,25 @@
 %define	lv2core_ver			6.7
 # ext
 %define	lv2_data_access_ver		1.6
-%define	lv2_dynmanifest_ver		1.4
-%define	lv2_event_ver			1.6
+%define	lv2_dynmanifest_ver		1.6
+%define	lv2_event_ver			1.8
 %define	lv2_instance_access_ver		1.6
-%define	lv2_midi_ver			1.6
-%define	lv2_presets_ver			2.6
+%define	lv2_midi_ver			1.8
+%define	lv2_presets_ver			2.8
 %define	lv2_uri_map_ver			1.6
-%define	lv2_urid_ver			1.2
+%define	lv2_urid_ver			1.4
 # extensions
-%define	lv2_ui_ver			2.8
-%define	lv2_units_ver			5.6
+%define	lv2_ui_ver			2.10
+%define	lv2_units_ver			5.8
 Summary:	LV2 (LADSPA Version 2) Audio Plugin Standard
 Summary(pl.UTF-8):	LV2 (LADSPA Version 2) - standard wtyczek dźwiękowych
 Name:		lv2
-Version:	1.0.0
+Version:	1.2.0
 Release:	1
 License:	ISC
 Group:		Libraries
 Source0:	http://lv2plug.in/spec/%{name}-%{version}.tar.bz2
-# Source0-md5:	af98a50d8dfa8318a69800ea48b421f6
+# Source0-md5:	323b851563b4da1ad2c0faf5c76f0e3a
 URL:		http://lv2plug.in/
 # g++ only checked for, not used
 BuildRequires:	libstdc++-devel
@@ -136,6 +136,8 @@ rm -rf $RPM_BUILD_ROOT
 ./waf install \
 	--destdir=$RPM_BUILD_ROOT
 
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/lv2/atom.lv2/atom-test.c
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
@@ -149,6 +151,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/lv2/lv2core.lv2/manifest.ttl
 %dir %{_libdir}/lv2/atom.lv2
 %{_libdir}/lv2/atom.lv2/*.ttl
+%dir %{_libdir}/lv2/buf-size.lv2
+%{_libdir}/lv2/buf-size.lv2/*.ttl
 %dir %{_libdir}/lv2/data-access.lv2
 %{_libdir}/lv2/data-access.lv2/*.ttl
 %dir %{_libdir}/lv2/dynmanifest.lv2
@@ -156,17 +160,21 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/lv2/eg-amp.lv2
 %{_libdir}/lv2/eg-amp.lv2/*.ttl
 %attr(755,root,root) %{_libdir}/lv2/eg-amp.lv2/amp.so
+%dir %{_libdir}/lv2/eg-synth.lv2
+%{_libdir}/lv2/eg-synth.lv2/*.ttl
+%attr(755,root,root) %{_libdir}/lv2/eg-synth.lv2/synth.so
 %dir %{_libdir}/lv2/event.lv2
 %{_libdir}/lv2/event.lv2/*.ttl
 %dir %{_libdir}/lv2/instance-access.lv2
 %{_libdir}/lv2/instance-access.lv2/*.ttl
 %dir %{_libdir}/lv2/log.lv2
 %{_libdir}/lv2/log.lv2/*.ttl
-%dir %{_libdir}/lv2/lv2core.lv2
-%dir %{_libdir}/lv2/meta.lv2
-%{_libdir}/lv2/meta.lv2/*.ttl
 %dir %{_libdir}/lv2/midi.lv2
 %{_libdir}/lv2/midi.lv2/*.ttl
+%dir %{_libdir}/lv2/morph.lv2
+%{_libdir}/lv2/morph.lv2/*.ttl
+%dir %{_libdir}/lv2/options.lv2
+%{_libdir}/lv2/options.lv2/*.ttl
 %dir %{_libdir}/lv2/parameters.lv2
 %{_libdir}/lv2/parameters.lv2/*.ttl
 %dir %{_libdir}/lv2/patch.lv2
@@ -198,12 +206,16 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_libdir}/lv2/lv2core.lv2/lv2.h
 %{_libdir}/lv2/atom.lv2/*.h
+%{_libdir}/lv2/buf-size.lv2/buf-size.h
 %{_libdir}/lv2/data-access.lv2/data-access.h
 %{_libdir}/lv2/dynmanifest.lv2/dynmanifest.h
 %{_libdir}/lv2/event.lv2/event*.h
 %{_libdir}/lv2/instance-access.lv2/instance-access.h
 %{_libdir}/lv2/log.lv2/log.h
 %{_libdir}/lv2/midi.lv2/midi.h
+%{_libdir}/lv2/morph.lv2/morph.h
+%{_libdir}/lv2/options.lv2/options.h
+%{_libdir}/lv2/parameters.lv2/parameters.h
 %{_libdir}/lv2/patch.lv2/patch.h
 %{_libdir}/lv2/port-groups.lv2/port-groups.h
 %{_libdir}/lv2/port-props.lv2/port-props.h
@@ -223,12 +235,16 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/lv2/lv2plug.in/ns/lv2core
 %dir %{_includedir}/lv2/lv2plug.in/ns/ext
 %{_includedir}/lv2/lv2plug.in/ns/ext/atom
+%{_includedir}/lv2/lv2plug.in/ns/ext/buf-size
 %{_includedir}/lv2/lv2plug.in/ns/ext/data-access
 %{_includedir}/lv2/lv2plug.in/ns/ext/dynmanifest
 %{_includedir}/lv2/lv2plug.in/ns/ext/event
 %{_includedir}/lv2/lv2plug.in/ns/ext/instance-access
 %{_includedir}/lv2/lv2plug.in/ns/ext/log
 %{_includedir}/lv2/lv2plug.in/ns/ext/midi
+%{_includedir}/lv2/lv2plug.in/ns/ext/morph
+%{_includedir}/lv2/lv2plug.in/ns/ext/options
+%{_includedir}/lv2/lv2plug.in/ns/ext/parameters
 %{_includedir}/lv2/lv2plug.in/ns/ext/patch
 %{_includedir}/lv2/lv2plug.in/ns/ext/port-groups
 %{_includedir}/lv2/lv2plug.in/ns/ext/port-props
