@@ -1,6 +1,6 @@
 # TODO: rethink plugins packaging (included or in subpackages? subpackage could include individual NEWS files; for descriptions see lv2-*.spec files)
 # core
-%define	lv2core_ver			6.7
+%define	lv2core_ver			8.2
 # ext
 %define	lv2_data_access_ver		1.6
 %define	lv2_dynmanifest_ver		1.6
@@ -11,17 +11,17 @@
 %define	lv2_uri_map_ver			1.6
 %define	lv2_urid_ver			1.4
 # extensions
-%define	lv2_ui_ver			2.10
+%define	lv2_ui_ver			2.12
 %define	lv2_units_ver			5.8
 Summary:	LV2 (LADSPA Version 2) Audio Plugin Standard
 Summary(pl.UTF-8):	LV2 (LADSPA Version 2) - standard wtyczek dźwiękowych
 Name:		lv2
-Version:	1.2.0
+Version:	1.4.0
 Release:	1
 License:	ISC
 Group:		Libraries
 Source0:	http://lv2plug.in/spec/%{name}-%{version}.tar.bz2
-# Source0-md5:	323b851563b4da1ad2c0faf5c76f0e3a
+# Source0-md5:	b7fb567fbfadae14ecd4f422fa24d41e
 URL:		http://lv2plug.in/
 # g++ only checked for, not used
 BuildRequires:	libstdc++-devel
@@ -160,9 +160,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/lv2/eg-amp.lv2
 %{_libdir}/lv2/eg-amp.lv2/*.ttl
 %attr(755,root,root) %{_libdir}/lv2/eg-amp.lv2/amp.so
-%dir %{_libdir}/lv2/eg-synth.lv2
-%{_libdir}/lv2/eg-synth.lv2/*.ttl
-%attr(755,root,root) %{_libdir}/lv2/eg-synth.lv2/synth.so
+%dir %{_libdir}/lv2/eg-metro.lv2
+%{_libdir}/lv2/eg-metro.lv2/*.ttl
+%attr(755,root,root) %{_libdir}/lv2/eg-metro.lv2/metro.so
+%dir %{_libdir}/lv2/eg-midigate.lv2
+%{_libdir}/lv2/eg-midigate.lv2/*.ttl
+%attr(755,root,root) %{_libdir}/lv2/eg-midigate.lv2/midigate.so
 %dir %{_libdir}/lv2/event.lv2
 %{_libdir}/lv2/event.lv2/*.ttl
 %dir %{_libdir}/lv2/instance-access.lv2
@@ -212,6 +215,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/lv2/event.lv2/event*.h
 %{_libdir}/lv2/instance-access.lv2/instance-access.h
 %{_libdir}/lv2/log.lv2/log.h
+%{_libdir}/lv2/log.lv2/logger.h
 %{_libdir}/lv2/midi.lv2/midi.h
 %{_libdir}/lv2/morph.lv2/morph.h
 %{_libdir}/lv2/options.lv2/options.h
