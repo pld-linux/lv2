@@ -1,27 +1,27 @@
 # TODO: rethink plugins packaging (included or in subpackages? subpackage could include individual NEWS files; for descriptions see lv2-*.spec files)
 # core
-%define	lv2core_ver			8.2
+%define	lv2core_ver			10.0
 # ext
 %define	lv2_data_access_ver		1.6
 %define	lv2_dynmanifest_ver		1.6
-%define	lv2_event_ver			1.8
+%define	lv2_event_ver			1.10
 %define	lv2_instance_access_ver		1.6
 %define	lv2_midi_ver			1.8
 %define	lv2_presets_ver			2.8
 %define	lv2_uri_map_ver			1.6
 %define	lv2_urid_ver			1.4
 # extensions
-%define	lv2_ui_ver			2.12
+%define	lv2_ui_ver			2.14
 %define	lv2_units_ver			5.8
 Summary:	LV2 (LADSPA Version 2) Audio Plugin Standard
 Summary(pl.UTF-8):	LV2 (LADSPA Version 2) - standard wtyczek dźwiękowych
 Name:		lv2
-Version:	1.4.0
+Version:	1.6.0
 Release:	1
 License:	ISC
 Group:		Libraries
 Source0:	http://lv2plug.in/spec/%{name}-%{version}.tar.bz2
-# Source0-md5:	b7fb567fbfadae14ecd4f422fa24d41e
+# Source0-md5:	943c3a62ec9b4e62139d83f8dd095fab
 URL:		http://lv2plug.in/
 # g++ only checked for, not used
 BuildRequires:	libstdc++-devel
