@@ -1,6 +1,6 @@
 # TODO: rethink plugins packaging (included or in subpackages? subpackage could include individual NEWS files; for descriptions see lv2-*.spec files)
 # core
-%define	lv2core_ver			10.0
+%define	lv2core_ver			12.0
 # ext
 %define	lv2_data_access_ver		1.6
 %define	lv2_dynmanifest_ver		1.6
@@ -11,24 +11,27 @@
 %define	lv2_uri_map_ver			1.6
 %define	lv2_urid_ver			1.4
 # extensions
-%define	lv2_ui_ver			2.14
+%define	lv2_ui_ver			2.16
 %define	lv2_units_ver			5.8
 Summary:	LV2 (LADSPA Version 2) Audio Plugin Standard
 Summary(pl.UTF-8):	LV2 (LADSPA Version 2) - standard wtyczek dźwiękowych
 Name:		lv2
-Version:	1.6.0
+Version:	1.8.0
 Release:	1
 License:	ISC
 Group:		Libraries
 Source0:	http://lv2plug.in/spec/%{name}-%{version}.tar.bz2
-# Source0-md5:	943c3a62ec9b4e62139d83f8dd095fab
+# Source0-md5:	2bdcf01f24fa567448afbf6b8be17044
 URL:		http://lv2plug.in/
 # g++ only checked for, not used
 BuildRequires:	libstdc++-devel
 BuildRequires:	python >= 1:2.6
 BuildRequires:	python-modules >= 1:2.6
-# for eg-sampler
+# for eg-scope ui
+BuildRequires:	cairo-devel >= 1.8.10
+# for eg-sampler and eg-scope ui
 BuildRequires:	gtk+2-devel >= 2:2.18.0
+# for eg-sampler
 BuildRequires:	libsndfile-devel >= 1.0.0
 BuildRequires:	pkgconfig
 Provides:	lv2core = %{lv2core_ver}
@@ -121,6 +124,20 @@ Sampler example plugin for LV2.
 %description eg-sampler -l pl.UTF-8
 Przykładowa wtyczka dla LV2: Sampler.
 
+%package eg-scope
+Summary:	Simple Oscilloscope example plugin for LV2
+Summary(pl.UTF-8):	Przykładowa wtyczka dla LV2: prosty oscyloskop
+Group:		Libraries
+Requires:	%{name} = %{version}-%{release}
+Requires:	cairo >= 1.8.10
+Requires:	gtk+2 >= 2:2.18.0
+
+%description eg-scope
+Simple oscilloscope example plugin for LV2.
+
+%description eg-scope -l pl.UTF-8
+Przykładowa wtyczka dla LV2: prosty oscyoloskop.
+
 %prep
 %setup -q
 
@@ -207,6 +224,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/lv2specgen.py
 %{_libdir}/lv2/lv2core.lv2/lv2.h
 %{_libdir}/lv2/atom.lv2/*.h
 %{_libdir}/lv2/buf-size.lv2/buf-size.h
@@ -262,6 +280,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_includedir}/lv2/lv2plug.in/ns/extensions
 %{_includedir}/lv2/lv2plug.in/ns/extensions/ui
 %{_includedir}/lv2/lv2plug.in/ns/extensions/units
+%{_datadir}/lv2specgen
 %{_pkgconfigdir}/lv2.pc
 %{_pkgconfigdir}/lv2core.pc
 
@@ -271,3 +290,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/lv2/eg-sampler.lv2/*.ttl
 %{_libdir}/lv2/eg-sampler.lv2/click.wav
 %attr(755,root,root) %{_libdir}/lv2/eg-sampler.lv2/sampler*.so
+
+%files eg-scope
+%defattr(644,root,root,755)
+%dir %{_libdir}/lv2/eg-scope.lv2
+%attr(755,root,root) %{_libdir}/lv2/eg-scope.lv2/examploscope.so
+%attr(755,root,root) %{_libdir}/lv2/eg-scope.lv2/examploscope_ui.so
+%dir %{_libdir}/lv2/eg-scope.lv2/*.ttl
