@@ -1,27 +1,27 @@
 # TODO: rethink plugins packaging (included or in subpackages? subpackage could include individual NEWS files; for descriptions see lv2-*.spec files)
 # core
-%define	lv2core_ver			12.0
+%define	lv2core_ver			12.4
 # ext
 %define	lv2_data_access_ver		1.6
 %define	lv2_dynmanifest_ver		1.6
-%define	lv2_event_ver			1.10
+%define	lv2_event_ver			1.12
 %define	lv2_instance_access_ver		1.6
 %define	lv2_midi_ver			1.8
 %define	lv2_presets_ver			2.8
 %define	lv2_uri_map_ver			1.6
 %define	lv2_urid_ver			1.4
 # extensions
-%define	lv2_ui_ver			2.16
-%define	lv2_units_ver			5.8
+%define	lv2_ui_ver			2.18
+%define	lv2_units_ver			5.10
 Summary:	LV2 (LADSPA Version 2) Audio Plugin Standard
 Summary(pl.UTF-8):	LV2 (LADSPA Version 2) - standard wtyczek dźwiękowych
 Name:		lv2
-Version:	1.8.0
+Version:	1.12.0
 Release:	1
 License:	ISC
 Group:		Libraries
 Source0:	http://lv2plug.in/spec/%{name}-%{version}.tar.bz2
-# Source0-md5:	2bdcf01f24fa567448afbf6b8be17044
+# Source0-md5:	665580dc761de40b0d335001a204496a
 URL:		http://lv2plug.in/
 # g++ only checked for, not used
 BuildRequires:	libstdc++-devel
@@ -160,7 +160,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc COPYING NEWS README
+%doc COPYING NEWS README.md
 %dir %{_libdir}/lv2
 %dir %{_libdir}/lv2/lv2core.lv2
 %{_libdir}/lv2/lv2core.lv2/lv2core.ttl
@@ -177,6 +177,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/lv2/eg-amp.lv2
 %{_libdir}/lv2/eg-amp.lv2/*.ttl
 %attr(755,root,root) %{_libdir}/lv2/eg-amp.lv2/amp.so
+%dir %{_libdir}/lv2/eg-fifths.lv2
+%{_libdir}/lv2/eg-fifths.lv2/*.ttl
+%attr(755,root,root) %{_libdir}/lv2/eg-fifths.lv2/fifths.so
 %dir %{_libdir}/lv2/eg-metro.lv2
 %{_libdir}/lv2/eg-metro.lv2/*.ttl
 %attr(755,root,root) %{_libdir}/lv2/eg-metro.lv2/metro.so
@@ -207,6 +210,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/lv2/presets.lv2/*.ttl
 %dir %{_libdir}/lv2/resize-port.lv2
 %{_libdir}/lv2/resize-port.lv2/*.ttl
+%dir %{_libdir}/lv2/schemas.lv2
+%{_libdir}/lv2/schemas.lv2/*.ttl
 %dir %{_libdir}/lv2/state.lv2
 %{_libdir}/lv2/state.lv2/*.ttl
 %dir %{_libdir}/lv2/time.lv2
