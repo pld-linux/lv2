@@ -17,7 +17,7 @@ Summary:	LV2 (LADSPA Version 2) Audio Plugin Standard
 Summary(pl.UTF-8):	LV2 (LADSPA Version 2) - standard wtyczek dźwiękowych
 Name:		lv2
 Version:	1.12.0
-Release:	1
+Release:	2
 License:	ISC
 Group:		Libraries
 Source0:	http://lv2plug.in/spec/%{name}-%{version}.tar.bz2
@@ -144,7 +144,8 @@ Przykładowa wtyczka dla LV2: prosty oscyoloskop.
 %build
 ./waf configure \
 	--prefix=%{_prefix} \
-	--libdir=%{_libdir}
+	--libdir=%{_libdir} \
+	--lv2dir=%{_libdir}/lv2
 ./waf
 
 %install
