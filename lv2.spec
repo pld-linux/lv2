@@ -1,6 +1,6 @@
 # TODO: rethink plugins packaging (included or in subpackages? subpackage could include individual NEWS files; for descriptions see lv2-*.spec files)
 # core
-%define	lv2core_ver			12.4
+%define	lv2core_ver			14.0
 # ext
 %define	lv2_data_access_ver		1.6
 %define	lv2_dynmanifest_ver		1.6
@@ -11,17 +11,17 @@
 %define	lv2_uri_map_ver			1.6
 %define	lv2_urid_ver			1.4
 # extensions
-%define	lv2_ui_ver			2.18
+%define	lv2_ui_ver			2.20
 %define	lv2_units_ver			5.10
 Summary:	LV2 (LADSPA Version 2) Audio Plugin Standard
 Summary(pl.UTF-8):	LV2 (LADSPA Version 2) - standard wtyczek dźwiękowych
 Name:		lv2
-Version:	1.12.0
-Release:	2
+Version:	1.14.0
+Release:	1
 License:	ISC
 Group:		Libraries
 Source0:	http://lv2plug.in/spec/%{name}-%{version}.tar.bz2
-# Source0-md5:	665580dc761de40b0d335001a204496a
+# Source0-md5:	0b56285a77aac3c93b50c36203aa91ee
 URL:		http://lv2plug.in/
 # g++ only checked for, not used
 BuildRequires:	libstdc++-devel
@@ -187,6 +187,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/lv2/eg-midigate.lv2
 %{_libdir}/lv2/eg-midigate.lv2/*.ttl
 %attr(755,root,root) %{_libdir}/lv2/eg-midigate.lv2/midigate.so
+%dir %{_libdir}/lv2/eg-params.lv2
+%{_libdir}/lv2/eg-params.lv2/*.ttl
+%attr(755,root,root) %{_libdir}/lv2/eg-params.lv2/params.so
 %dir %{_libdir}/lv2/event.lv2
 %{_libdir}/lv2/event.lv2/*.ttl
 %dir %{_libdir}/lv2/instance-access.lv2
