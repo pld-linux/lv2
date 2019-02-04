@@ -1,18 +1,3 @@
-# TODO: rethink plugins packaging (included or in subpackages? subpackage could include individual NEWS files; for descriptions see lv2-*.spec files)
-# core
-%define	lv2core_ver			16.0
-# ext
-%define	lv2_data_access_ver		1.6
-%define	lv2_dynmanifest_ver		1.6
-%define	lv2_event_ver			1.12
-%define	lv2_instance_access_ver		1.6
-%define	lv2_midi_ver			1.8
-%define	lv2_presets_ver			2.8
-%define	lv2_uri_map_ver			1.6
-%define	lv2_urid_ver			1.4
-# extensions
-%define	lv2_ui_ver			2.20
-%define	lv2_units_ver			5.10
 Summary:	LV2 (LADSPA Version 2) Audio Plugin Standard
 Summary(pl.UTF-8):	LV2 (LADSPA Version 2) - standard wtyczek dźwiękowych
 Name:		lv2
@@ -34,28 +19,17 @@ BuildRequires:	gtk+2-devel >= 2:2.18.0
 # for eg-sampler
 BuildRequires:	libsndfile-devel >= 1.0.0
 BuildRequires:	pkgconfig
-Provides:	lv2core = %{lv2core_ver}
-Obsoletes:	lv2core < %{lv2core_ver}
-Provides:	lv2-data-access = %{lv2_data_access_ver}
-Obsoletes:	lv2-data-access < %{lv2_data_access_ver}
-Provides:	lv2-dynmanifest = %{lv2_dynmanifest_ver}
-Obsoletes:	lv2-dynmanifest < %{lv2_dynmanifest_ver}
-Provides:	lv2-event = %{lv2_event_ver}
-Obsoletes:	lv2-event < %{lv2_event_ver}
-Provides:	lv2-instance-access = %{lv2_instance_access_ver}
-Obsoletes:	lv2-instance-access < %{lv2_instance_access_ver}
-Provides:	lv2-midi = %{lv2_midi_ver}
-Obsoletes:	lv2-midi < %{lv2_midi_ver}
-Provides:	lv2-presets = %{lv2_presets_ver}
-Obsoletes:	lv2-presets < %{lv2_presets_ver}
-Provides:	lv2-ui = %{lv2_ui_ver}
-Obsoletes:	lv2-ui < %{lv2_ui_ver}
-Provides:	lv2-units = %{lv2_units_ver}
-Obsoletes:	lv2-units < %{lv2_units_ver}
-Provides:	lv2-uri-map = %{lv2_uri_map_ver}
-Obsoletes:	lv2-uri-map < %{lv2_uri_map_ver}
-Provides:	lv2-urid = %{lv2_urid_ver}
-Obsoletes:	lv2-urid < %{lv2_urid_ver}
+Obsoletes:	lv2core
+Obsoletes:	lv2-data-access
+Obsoletes:	lv2-dynmanifest
+Obsoletes:	lv2-event
+Obsoletes:	lv2-instance-access
+Obsoletes:	lv2-midi
+Obsoletes:	lv2-presets
+Obsoletes:	lv2-ui
+Obsoletes:	lv2-units
+Obsoletes:	lv2-uri-map
+Obsoletes:	lv2-urid
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoprovfiles	%{_libdir}/lv2
@@ -83,28 +57,17 @@ Summary(pl.UTF-8):	Plik nagłówkowy API LV2
 License:	LGPL v2.1+
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Provides:	lv2core-devel = %{lv2core_ver}
-Obsoletes:	lv2core-devel < %{lv2core_ver}
-Provides:	lv2-data-access-devel = %{lv2_data_access_ver}
-Obsoletes:	lv2-data-access-devel < %{lv2_data_access_ver}
-Provides:	lv2-dynmanifest-devel = %{lv2_dynmanifest_ver}
-Obsoletes:	lv2-dynmanifest-devel < %{lv2_dynmanifest_ver}
-Provides:	lv2-event-devel = %{lv2_event_ver}
-Obsoletes:	lv2-event-devel < %{lv2_event_ver}
-Provides:	lv2-instance-access-devel = %{lv2_instance_access_ver}
-Obsoletes:	lv2-instance-access-devel < %{lv2_instance_access_ver}
-Provides:	lv2-midi-devel = %{lv2_midi_ver}
-Obsoletes:	lv2-midi-devel < %{lv2_midi_ver}
-Provides:	lv2-presets-devel = %{lv2_presets_ver}
-Obsoletes:	lv2-presets-devel < %{lv2_presets_ver}
-Provides:	lv2-ui-devel = %{lv2_ui_ver}
-Obsoletes:	lv2-ui-devel < %{lv2_ui_ver}
-Provides:	lv2-units-devel = %{lv2_units_ver}
-Obsoletes:	lv2-units-devel < %{lv2_units_ver}
-Provides:	lv2-uri-map-devel = %{lv2_uri_map_ver}
-Obsoletes:	lv2-uri-map-devel < %{lv2_uri_map_ver}
-Provides:	lv2-urid-devel = %{lv2_urid_ver}
-Obsoletes:	lv2-urid-devel < %{lv2_urid_ver}
+Obsoletes:	lv2core-devel
+Obsoletes:	lv2-data-access-devel
+Obsoletes:	lv2-dynmanifest-devel
+Obsoletes:	lv2-event-devel
+Obsoletes:	lv2-instance-access-devel
+Obsoletes:	lv2-midi-devel
+Obsoletes:	lv2-presets-devel
+Obsoletes:	lv2-ui-devel
+Obsoletes:	lv2-units-devel
+Obsoletes:	lv2-uri-map-devel
+Obsoletes:	lv2-urid-devel
 
 %description devel
 LV2 API header file.
