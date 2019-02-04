@@ -1,6 +1,6 @@
 # TODO: rethink plugins packaging (included or in subpackages? subpackage could include individual NEWS files; for descriptions see lv2-*.spec files)
 # core
-%define	lv2core_ver			14.0
+%define	lv2core_ver			16.0
 # ext
 %define	lv2_data_access_ver		1.6
 %define	lv2_dynmanifest_ver		1.6
@@ -16,12 +16,12 @@
 Summary:	LV2 (LADSPA Version 2) Audio Plugin Standard
 Summary(pl.UTF-8):	LV2 (LADSPA Version 2) - standard wtyczek dźwiękowych
 Name:		lv2
-Version:	1.14.0
-Release:	2
+Version:	1.16.0
+Release:	1
 License:	ISC
 Group:		Libraries
 Source0:	http://lv2plug.in/spec/%{name}-%{version}.tar.bz2
-# Source0-md5:	0b56285a77aac3c93b50c36203aa91ee
+# Source0-md5:	14b614a0e3d06df6b81ebbe8a15ee431
 URL:		http://lv2plug.in/
 # g++ only checked for, not used
 BuildRequires:	libstdc++-devel
@@ -170,10 +170,11 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %doc COPYING NEWS README.md
 %dir %{_libdir}/lv2
-%dir %{_libdir}/lv2/lv2core.lv2
-%{_libdir}/lv2/lv2core.lv2/lv2core.ttl
-%{_libdir}/lv2/lv2core.lv2/lv2core.doap.ttl
-%{_libdir}/lv2/lv2core.lv2/manifest.ttl
+%dir %{_libdir}/lv2/core.lv2
+%{_libdir}/lv2/core.lv2/lv2core.ttl
+%{_libdir}/lv2/core.lv2/lv2core.doap.ttl
+%{_libdir}/lv2/core.lv2/manifest.ttl
+%{_libdir}/lv2/core.lv2/meta.ttl
 %dir %{_libdir}/lv2/atom.lv2
 %{_libdir}/lv2/atom.lv2/*.ttl
 %dir %{_libdir}/lv2/buf-size.lv2
@@ -241,7 +242,10 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/lv2specgen.py
-%{_libdir}/lv2/lv2core.lv2/lv2.h
+%attr(755,root,root) %{_bindir}/lv2_validate
+%{_libdir}/lv2/core.lv2/lv2.h
+%{_libdir}/lv2/core.lv2/attributes.h
+%{_libdir}/lv2/core.lv2/lv2_util.h
 %{_libdir}/lv2/atom.lv2/*.h
 %{_libdir}/lv2/buf-size.lv2/buf-size.h
 %{_libdir}/lv2/data-access.lv2/data-access.h
@@ -268,6 +272,30 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/lv2/worker.lv2/worker.h
 %{_includedir}/lv2.h
 %dir %{_includedir}/lv2
+%{_includedir}/lv2/atom
+%{_includedir}/lv2/buf-size
+%{_includedir}/lv2/core
+%{_includedir}/lv2/data-access
+%{_includedir}/lv2/dynmanifest
+%{_includedir}/lv2/event
+%{_includedir}/lv2/instance-access
+%{_includedir}/lv2/log
+%{_includedir}/lv2/midi
+%{_includedir}/lv2/morph
+%{_includedir}/lv2/options
+%{_includedir}/lv2/parameters
+%{_includedir}/lv2/patch
+%{_includedir}/lv2/port-groups
+%{_includedir}/lv2/port-props
+%{_includedir}/lv2/presets
+%{_includedir}/lv2/resize-port
+%{_includedir}/lv2/state
+%{_includedir}/lv2/time
+%{_includedir}/lv2/ui
+%{_includedir}/lv2/units
+%{_includedir}/lv2/uri-map
+%{_includedir}/lv2/urid
+%{_includedir}/lv2/worker
 %dir %{_includedir}/lv2/lv2plug.in
 %dir %{_includedir}/lv2/lv2plug.in/ns
 %{_includedir}/lv2/lv2plug.in/ns/lv2core
@@ -298,7 +326,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_includedir}/lv2/lv2plug.in/ns/extensions/units
 %{_datadir}/lv2specgen
 %{_pkgconfigdir}/lv2.pc
-%{_pkgconfigdir}/lv2core.pc
 
 %files eg-sampler
 %defattr(644,root,root,755)
