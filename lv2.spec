@@ -1,13 +1,13 @@
 Summary:	LV2 (LADSPA Version 2) Audio Plugin Standard
 Summary(pl.UTF-8):	LV2 (LADSPA Version 2) - standard wtyczek dźwiękowych
 Name:		lv2
-Version:	1.16.0
+Version:	1.18.0
 Release:	1
 License:	ISC
 Group:		Libraries
-Source0:	http://lv2plug.in/spec/%{name}-%{version}.tar.bz2
-# Source0-md5:	14b614a0e3d06df6b81ebbe8a15ee431
-URL:		http://lv2plug.in/
+Source0:	https://lv2plug.in/spec/%{name}-%{version}.tar.bz2
+# Source0-md5:	e5cd231b43bd2b114e43ebab68861d99
+URL:		https://lv2plug.in/
 # g++ only checked for, not used
 BuildRequires:	libstdc++-devel
 BuildRequires:	python >= 1:2.6
@@ -19,6 +19,7 @@ BuildRequires:	gtk+2-devel >= 2:2.18.0
 # for eg-sampler
 BuildRequires:	libsndfile-devel >= 1.0.0
 BuildRequires:	pkgconfig
+BuildRequires:	sed >= 4.0
 Obsoletes:	lv2core
 Obsoletes:	lv2-data-access
 Obsoletes:	lv2-dynmanifest
@@ -37,7 +38,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 LV2 is a standard for audio systems. It defines a minimal yet
 extensible C API for plugin code and a format for plugin "bundles".
-See <http://lv2plug.in/> for more information.
+See <https://lv2plug.in/> for more information.
 
 This package contains specifications (a C header and/or a schema in
 Turtle), documentation generation tools, and example plugins.
@@ -45,7 +46,7 @@ Turtle), documentation generation tools, and example plugins.
 %description -l pl.UTF-8
 LV2 to standard systemów dźwiękowych. Definiuje minimalne, ale
 rozszerzalne API C dla kodu wtyczek oraz format "paczek" wtyczek.
-Więcej informacji pod adresem <http://lv2plug.in/>.
+Więcej informacji pod adresem <https://lv2plug.in/>.
 
 Ten pakiet zawiera specyfikacje (plik nagłówkowy C i/lub schemat w
 formacie Turtle), narzędzia do generowania dokumentacji oraz
@@ -106,6 +107,8 @@ Przykładowa wtyczka dla LV2: prosty oscyoloskop.
 %prep
 %setup -q
 
+%{__sed} -i -e '1s,/usr/bin/env python$,%{__python},' lv2specgen/lv2specgen.py
+
 %build
 CC="%{__cc}" \
 CXX="%{__cxx}" \
@@ -124,7 +127,7 @@ rm -rf $RPM_BUILD_ROOT
 ./waf install \
 	--destdir=$RPM_BUILD_ROOT
 
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/lv2/atom.lv2/atom-test.c
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/lv2/atom.lv2/{atom-test,atom-test-utils,forge-overflow-test}.c
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -135,9 +138,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/lv2
 %dir %{_libdir}/lv2/core.lv2
 %{_libdir}/lv2/core.lv2/lv2core.ttl
-%{_libdir}/lv2/core.lv2/lv2core.doap.ttl
+%{_libdir}/lv2/core.lv2/lv2core.meta.ttl
 %{_libdir}/lv2/core.lv2/manifest.ttl
 %{_libdir}/lv2/core.lv2/meta.ttl
+%{_libdir}/lv2/core.lv2/people.ttl
 %dir %{_libdir}/lv2/atom.lv2
 %{_libdir}/lv2/atom.lv2/*.ttl
 %dir %{_libdir}/lv2/buf-size.lv2
