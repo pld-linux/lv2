@@ -1,12 +1,12 @@
 Summary:	LV2 (LADSPA Version 2) Audio Plugin Standard
 Summary(pl.UTF-8):	LV2 (LADSPA Version 2) - standard wtyczek dźwiękowych
 Name:		lv2
-Version:	1.18.0
+Version:	1.18.2
 Release:	1
 License:	ISC
 Group:		Libraries
 Source0:	https://lv2plug.in/spec/%{name}-%{version}.tar.bz2
-# Source0-md5:	e5cd231b43bd2b114e43ebab68861d99
+# Source0-md5:	4693bac601af4ca329ff18e6d6dae3fa
 URL:		https://lv2plug.in/
 # g++ only checked for, not used
 BuildRequires:	libstdc++-devel
