@@ -306,4 +306,4 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/lv2/eg-scope.lv2
 %attr(755,root,root) %{_libdir}/lv2/eg-scope.lv2/examploscope.so
 %attr(755,root,root) %{_libdir}/lv2/eg-scope.lv2/examploscope_ui.so
-%dir %{_libdir}/lv2/eg-scope.lv2/*.ttl
+%{_libdir}/lv2/eg-scope.lv2/*.ttl
