@@ -137,6 +137,24 @@ rm -rf $RPM_BUILD_ROOT
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%pretrans
+# replace symlinks to %{_libdir}/lv2/* with directories
+for p in atom buf-size core data-access dynmanifest event instance-access log midi morph options parameters patch port-groups port-props presets resize-port state time ui units uri-map urid worker lv2plug.in/ns/lv2core ; do
+	if [ -L "%{_includedir}/lv2/$p" ]; then
+		rm -f "%{_includedir}/lv2/$p"
+	fi
+done
+for p in atom buf-size data-access dynmanifest event instance-access log midi morph options parameters patch port-groups port-props presets resize-port state time uri-map urid worker ; do
+	if [ -L "%{_includedir}/lv2/lv2plug.in/ns/ext/$p" ]; then
+		rm -f "%{_includedir}/lv2/lv2plug.in/ns/ext/$p"
+	fi
+done
+for p in ui units ; do
+	if [ -L "%{_includedir}/lv2/lv2plug.in/ns/extensions/$p" ]; then
+		rm -f "%{_includedir}/lv2/lv2plug.in/ns/extensions/$p"
+	fi
+done
+
 %files
 %defattr(644,root,root,755)
 %doc COPYING NEWS README.md
