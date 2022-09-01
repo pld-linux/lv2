@@ -1,36 +1,50 @@
+#
+# Conditional build:
+%bcond_with	apidocs	# API documentation
+
 Summary:	LV2 (LADSPA Version 2) Audio Plugin Standard
 Summary(pl.UTF-8):	LV2 (LADSPA Version 2) - standard wtyczek dźwiękowych
 Name:		lv2
-Version:	1.18.2
+Version:	1.18.8
 Release:	1
 License:	ISC
 Group:		Libraries
-Source0:	https://lv2plug.in/spec/%{name}-%{version}.tar.bz2
-# Source0-md5:	4693bac601af4ca329ff18e6d6dae3fa
+Source0:	https://lv2plug.in/spec/%{name}-%{version}.tar.xz
+# Source0-md5:	cfc6a8c371146d7c5881ef293da3a34a
 URL:		https://lv2plug.in/
-# g++ only checked for, not used
-BuildRequires:	libstdc++-devel
-BuildRequires:	python >= 1:2.6
-BuildRequires:	python-modules >= 1:2.6
 # for eg-scope ui
-BuildRequires:	cairo-devel >= 1.8.10
+#BuildRequires:	cairo-devel >= 1.8.10
 # for eg-sampler and eg-scope ui
-BuildRequires:	gtk+2-devel >= 2:2.18.0
+#BuildRequires:	gtk+2-devel >= 2:2.18.0
+# for eg-sampler
+BuildRequires:	libsamplerate-devel >= 0.1.0
 # for eg-sampler
 BuildRequires:	libsndfile-devel >= 1.0.0
+BuildRequires:	meson >= 0.56.0
+BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
+BuildRequires:	python3 >= 1:3.7
 BuildRequires:	sed >= 4.0
-Obsoletes:	lv2core
-Obsoletes:	lv2-data-access
-Obsoletes:	lv2-dynmanifest
-Obsoletes:	lv2-event
-Obsoletes:	lv2-instance-access
-Obsoletes:	lv2-midi
-Obsoletes:	lv2-presets
-Obsoletes:	lv2-ui
-Obsoletes:	lv2-units
-Obsoletes:	lv2-uri-map
-Obsoletes:	lv2-urid
+BuildRequires:	tar >= 1:1.22
+BuildRequires:	xz
+%if %{with apidocs}
+BuildRequires:	doxygen
+BuildRequires:	python3-lxml
+BuildRequires:	python3-markdown
+BuildRequires:	python3-pygments
+BuildRequires:	python3-rdflib
+%endif
+Obsoletes:	lv2core < 8
+Obsoletes:	lv2-data-access < 1.6
+Obsoletes:	lv2-dynmanifest < 1.4
+Obsoletes:	lv2-event < 1.6
+Obsoletes:	lv2-instance-access < 1.6
+Obsoletes:	lv2-midi < 1.6
+Obsoletes:	lv2-presets < 2.6
+Obsoletes:	lv2-ui < 2.8
+Obsoletes:	lv2-units < 5.6
+Obsoletes:	lv2-uri-map < 1.6
+Obsoletes:	lv2-urid < 1.2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		_noautoprovfiles	%{_libdir}/lv2
@@ -58,17 +72,17 @@ Summary(pl.UTF-8):	Plik nagłówkowy API LV2
 License:	LGPL v2.1+
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Obsoletes:	lv2core-devel
-Obsoletes:	lv2-data-access-devel
-Obsoletes:	lv2-dynmanifest-devel
-Obsoletes:	lv2-event-devel
-Obsoletes:	lv2-instance-access-devel
-Obsoletes:	lv2-midi-devel
-Obsoletes:	lv2-presets-devel
-Obsoletes:	lv2-ui-devel
-Obsoletes:	lv2-units-devel
-Obsoletes:	lv2-uri-map-devel
-Obsoletes:	lv2-urid-devel
+Obsoletes:	lv2core-devel < 8
+Obsoletes:	lv2-data-access-devel < 1.6
+Obsoletes:	lv2-dynmanifest-devel < 1.4
+Obsoletes:	lv2-event-devel < 1.6
+Obsoletes:	lv2-instance-access-devel < 1.6
+Obsoletes:	lv2-midi-devel < 1.6
+Obsoletes:	lv2-presets-devel < 2.6
+Obsoletes:	lv2-ui-devel < 2.8
+Obsoletes:	lv2-units-devel < 5.6
+Obsoletes:	lv2-uri-map-devel < 1.6
+Obsoletes:	lv2-urid-devel < 1.2
 
 %description devel
 LV2 API header file.
@@ -107,27 +121,18 @@ Przykładowa wtyczka dla LV2: prosty oscyoloskop.
 %prep
 %setup -q
 
-%{__sed} -i -e '1s,/usr/bin/env python$,%{__python},' lv2specgen/lv2specgen.py
+%{__sed} -i -e '1s,/usr/bin/env python3$,%{__python3},' lv2specgen/lv2specgen.py
 
 %build
-CC="%{__cc}" \
-CXX="%{__cxx}" \
-CFLAGS="%{rpmcflags}" \
-CXXFLAGS="%{rpmcxxflags}" \
-LDFLAGS="%{rpmldflags}" \
-./waf configure \
-	--prefix=%{_prefix} \
-	--libdir=%{_libdir} \
-	--lv2dir=%{_libdir}/lv2
-./waf
+%meson build \
+	%{!?with_apidocs:-Ddocs=disabled}
+
+%ninja_build -C build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-./waf install \
-	--destdir=$RPM_BUILD_ROOT
-
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/lv2/atom.lv2/{atom-test,atom-test-utils,forge-overflow-test}.c
+%ninja_install -C build
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -210,33 +215,6 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/lv2specgen.py
 %attr(755,root,root) %{_bindir}/lv2_validate
-%{_libdir}/lv2/core.lv2/lv2.h
-%{_libdir}/lv2/core.lv2/attributes.h
-%{_libdir}/lv2/core.lv2/lv2_util.h
-%{_libdir}/lv2/atom.lv2/*.h
-%{_libdir}/lv2/buf-size.lv2/buf-size.h
-%{_libdir}/lv2/data-access.lv2/data-access.h
-%{_libdir}/lv2/dynmanifest.lv2/dynmanifest.h
-%{_libdir}/lv2/event.lv2/event*.h
-%{_libdir}/lv2/instance-access.lv2/instance-access.h
-%{_libdir}/lv2/log.lv2/log.h
-%{_libdir}/lv2/log.lv2/logger.h
-%{_libdir}/lv2/midi.lv2/midi.h
-%{_libdir}/lv2/morph.lv2/morph.h
-%{_libdir}/lv2/options.lv2/options.h
-%{_libdir}/lv2/parameters.lv2/parameters.h
-%{_libdir}/lv2/patch.lv2/patch.h
-%{_libdir}/lv2/port-groups.lv2/port-groups.h
-%{_libdir}/lv2/port-props.lv2/port-props.h
-%{_libdir}/lv2/presets.lv2/presets.h
-%{_libdir}/lv2/resize-port.lv2/resize-port.h
-%{_libdir}/lv2/state.lv2/state.h
-%{_libdir}/lv2/time.lv2/time.h
-%{_libdir}/lv2/ui.lv2/ui.h
-%{_libdir}/lv2/units.lv2/units.h
-%{_libdir}/lv2/uri-map.lv2/uri-map.h
-%{_libdir}/lv2/urid.lv2/urid.h
-%{_libdir}/lv2/worker.lv2/worker.h
 %{_includedir}/lv2.h
 %dir %{_includedir}/lv2
 %{_includedir}/lv2/atom
@@ -299,11 +277,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/lv2/eg-sampler.lv2
 %{_libdir}/lv2/eg-sampler.lv2/*.ttl
 %{_libdir}/lv2/eg-sampler.lv2/click.wav
-%attr(755,root,root) %{_libdir}/lv2/eg-sampler.lv2/sampler*.so
+%attr(755,root,root) %{_libdir}/lv2/eg-sampler.lv2/sampler.so
+# not built as of 1.18.8
+#%attr(755,root,root) %{_libdir}/lv2/eg-sampler.lv2/sampler_ui.so
 
 %files eg-scope
 %defattr(644,root,root,755)
 %dir %{_libdir}/lv2/eg-scope.lv2
 %attr(755,root,root) %{_libdir}/lv2/eg-scope.lv2/examploscope.so
-%attr(755,root,root) %{_libdir}/lv2/eg-scope.lv2/examploscope_ui.so
+# not built as of 1.18.8
+#%attr(755,root,root) %{_libdir}/lv2/eg-scope.lv2/examploscope_ui.so
 %{_libdir}/lv2/eg-scope.lv2/*.ttl
