@@ -1,21 +1,21 @@
 #
 # Conditional build:
-%bcond_with	apidocs	# API documentation
+%bcond_without	apidocs	# API documentation
 
 Summary:	LV2 (LADSPA Version 2) Audio Plugin Standard
 Summary(pl.UTF-8):	LV2 (LADSPA Version 2) - standard wtyczek dźwiękowych
 Name:		lv2
-Version:	1.18.8
+Version:	1.18.10
 Release:	1
 License:	ISC
 Group:		Libraries
 Source0:	https://lv2plug.in/spec/%{name}-%{version}.tar.xz
-# Source0-md5:	cfc6a8c371146d7c5881ef293da3a34a
+# Source0-md5:	9c1f3143ea2eea341e8d6e1bad9e5e0e
 URL:		https://lv2plug.in/
 # for eg-scope ui
-#BuildRequires:	cairo-devel >= 1.8.10
+BuildRequires:	cairo-devel >= 1.8.10
 # for eg-sampler and eg-scope ui
-#BuildRequires:	gtk+2-devel >= 2:2.18.0
+BuildRequires:	gtk+2-devel >= 2:2.18.0
 # for eg-sampler
 BuildRequires:	libsamplerate-devel >= 0.1.0
 # for eg-sampler
@@ -117,6 +117,17 @@ Simple oscilloscope example plugin for LV2.
 
 %description eg-scope -l pl.UTF-8
 Przykładowa wtyczka dla LV2: prosty oscyoloskop.
+
+%package apidocs
+Summary:	LV2 API documentation
+Summary(pl.UTF-8):	Dokumentacja API LV2
+Group:		Documentation
+
+%description apidocs
+LV2 API documentation.
+
+%description apidocs -l pl.UTF-8
+Dokumentacja API LV2.
 
 %prep
 %setup -q
@@ -231,7 +242,6 @@ done
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/lv2specgen.py
 %attr(755,root,root) %{_bindir}/lv2_validate
 %{_includedir}/lv2.h
 %dir %{_includedir}/lv2
@@ -287,8 +297,11 @@ done
 %dir %{_includedir}/lv2/lv2plug.in/ns/extensions
 %{_includedir}/lv2/lv2plug.in/ns/extensions/ui
 %{_includedir}/lv2/lv2plug.in/ns/extensions/units
-%{_datadir}/lv2specgen
 %{_pkgconfigdir}/lv2.pc
+%if %{with apidocs}
+%attr(755,root,root) %{_bindir}/lv2specgen.py
+%{_datadir}/lv2specgen
+%endif
 
 %files eg-sampler
 %defattr(644,root,root,755)
@@ -296,13 +309,18 @@ done
 %{_libdir}/lv2/eg-sampler.lv2/*.ttl
 %{_libdir}/lv2/eg-sampler.lv2/click.wav
 %attr(755,root,root) %{_libdir}/lv2/eg-sampler.lv2/sampler.so
-# not built as of 1.18.8
-#%attr(755,root,root) %{_libdir}/lv2/eg-sampler.lv2/sampler_ui.so
+%attr(755,root,root) %{_libdir}/lv2/eg-sampler.lv2/sampler_ui.so
 
 %files eg-scope
 %defattr(644,root,root,755)
 %dir %{_libdir}/lv2/eg-scope.lv2
 %attr(755,root,root) %{_libdir}/lv2/eg-scope.lv2/examploscope.so
-# not built as of 1.18.8
-#%attr(755,root,root) %{_libdir}/lv2/eg-scope.lv2/examploscope_ui.so
+%attr(755,root,root) %{_libdir}/lv2/eg-scope.lv2/examploscope_ui.so
 %{_libdir}/lv2/eg-scope.lv2/*.ttl
+
+%files apidocs
+%defattr(644,root,root,755)
+%dir %{_docdir}/lv2
+%{_docdir}/lv2/c
+%{_docdir}/lv2/ns
+%{_docdir}/lv2/style
