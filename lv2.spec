@@ -24,6 +24,7 @@ BuildRequires:	meson >= 0.56.0
 BuildRequires:	ninja >= 1.5
 BuildRequires:	pkgconfig
 BuildRequires:	python3 >= 1:3.7
+BuildRequires:	rpm-build >= 4.6
 BuildRequires:	sed >= 4.0
 BuildRequires:	tar >= 1:1.22
 BuildRequires:	xz
@@ -122,6 +123,7 @@ Przykładowa wtyczka dla LV2: prosty oscyoloskop.
 Summary:	LV2 API documentation
 Summary(pl.UTF-8):	Dokumentacja API LV2
 Group:		Documentation
+BuildArch:	noarch
 
 %description apidocs
 LV2 API documentation.
