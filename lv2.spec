@@ -318,9 +318,11 @@ done
 %attr(755,root,root) %{_libdir}/lv2/eg-scope.lv2/examploscope_ui.so
 %{_libdir}/lv2/eg-scope.lv2/*.ttl
 
+%if %{with apidocs}
 %files apidocs
 %defattr(644,root,root,755)
 %dir %{_docdir}/lv2
 %{_docdir}/lv2/c
 %{_docdir}/lv2/ns
 %{_docdir}/lv2/style
+%endif
