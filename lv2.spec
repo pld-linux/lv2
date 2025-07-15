@@ -138,15 +138,15 @@ Dokumentacja API LV2.
 %{__sed} -i -e '1s,/usr/bin/env python3$,%{__python3},' lv2specgen/lv2specgen.py
 
 %build
-%meson build \
+%meson \
 	%{!?with_apidocs:-Ddocs=disabled}
 
-%ninja_build -C build
+%meson_build
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
-%ninja_install -C build
+%meson_install
 
 %clean
 rm -rf $RPM_BUILD_ROOT
